@@ -43,5 +43,18 @@ bandit:
 lint: mypy flake8 bandit
 
 
-run: build
-	$(DOCKER_RUN) -v $(PWD)/data:/app/data --network=host $(DOCKER_IMG) producer
+produce-orders:
+	$(DOCKER_RUN) -v $(PWD)/data:/app/data --network=host $(DOCKER_IMG) producer \
+		--filepath data/order.json.gz \
+		--filetype json \
+		--topic event-orders \
+		--key_field order_id \
+		--timestamp_field order_created_at
+
+produce-status:
+	$(DOCKER_RUN) -v $(PWD)/data:/app/data --network=host $(DOCKER_IMG) producer \
+		--filepath data/status.json.gz \
+		--filetype json \
+		--topic event-status \
+		--key_field status_id \
+		--timestamp_field created_at

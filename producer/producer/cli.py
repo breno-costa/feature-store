@@ -4,14 +4,26 @@ from producer import producer
 
 
 @click.command()
-def run():
+@click.option("--filepath", help="Filepath to send to kafka")
+@click.option("--topic")
+@click.option("--filetype", default="json", help="Filetype (json, csv)")
+@click.option("--key_field", default=None, help="")
+@click.option("--timestamp_field", default=None)
+@click.option("--timestamp_format", default="%Y-%m-%dT%H:%M:%S.000Z")
+def run(filepath: str,
+        topic: str,
+        filetype: str = "json",
+        key_field: str = None,
+        timestamp_field: str = None,
+        timestamp_format: str = "%Y-%m-%dT%H:%M:%S.000Z"):
+
     producer.run(
-        filepath="data/order.json.gz",
-        filetype="json",
-        key_field="order_id",
-        timestamp_field="order_created_at",
-        timestamp_format="%Y-%m-%dT%H:%M:%S.000Z",
-        topic="orders"
+        filepath=filepath,
+        filetype=filetype,
+        key_field=key_field,
+        timestamp_field=timestamp_field,
+        timestamp_format=timestamp_format,
+        topic=topic
     )
 
 
