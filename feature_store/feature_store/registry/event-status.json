@@ -1,0 +1,29 @@
+{
+    "type": "struct",
+    "fields": [
+        {
+            "name": "status_id",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+        },
+        {
+            "name": "created_at",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+        },
+        {
+            "name": "order_id",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+        },
+        {
+            "name": "value",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+        }
+    ]
+}
