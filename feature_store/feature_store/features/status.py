@@ -16,7 +16,7 @@ def from_kafka(df: DataFrame, schema: str) -> DataFrame:
         df
         .selectExpr("CAST(key as STRING)", "CAST(value AS STRING)")
         .withColumn("record", from_json(col("value"), get_schema(schema)))
-        .select("key", "record.*")
+        .select("record.*")
     )
 
 
