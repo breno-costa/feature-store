@@ -44,4 +44,4 @@ lint: mypy flake8 bandit
 
 
 start: build
-	$(DOCKER_RUN) --network=host $(DOCKER_IMG) feature_store
+	$(DOCKER_RUN) -p 4040:4040 --network=host $(DOCKER_IMG) feature_store

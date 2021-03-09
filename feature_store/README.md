@@ -1,3 +1,0 @@
-# Feature Store
-
-Feature Store
