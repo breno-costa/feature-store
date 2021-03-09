@@ -43,18 +43,22 @@ bandit:
 lint: mypy flake8 bandit
 
 
-produce-orders:
+##################################################
+# EXECUTION TARGETS
+##################################################
+
+produce-order:
 	$(DOCKER_RUN) -v $(PWD)/data:/app/data --network=host $(DOCKER_IMG) producer \
 		--filepath data/order.json.gz \
 		--filetype json \
-		--topic event-orders \
-		--key_field order_id \
+		--entity order \
+		--entity_key order_id \
 		--timestamp_field order_created_at
 
 produce-status:
 	$(DOCKER_RUN) -v $(PWD)/data:/app/data --network=host $(DOCKER_IMG) producer \
 		--filepath data/status.json.gz \
 		--filetype json \
-		--topic event-status \
-		--key_field status_id \
+		--entity status \
+		--entity_key status_id \
 		--timestamp_field created_at

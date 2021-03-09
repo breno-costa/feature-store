@@ -6,6 +6,8 @@ from datetime import datetime
 from loguru import logger
 from kafka import KafkaProducer
 
+from producer import settings
+
 
 def on_send_error(excp: Exception):
     logger.error(f"Error to send record to kafka", exc_info=excp)
@@ -26,14 +28,17 @@ def get_record(line: str, filetype: str):
         return None
 
 
-def get_key(record: Dict[str, Any], key_field: str = None):
-    if key_field in record:
-        return record.get(key_field)
+def get_key(record: Dict[str, Any], entity_key: str = None):
+    """Get key field from the record to be used as kafka key"""
+    if entity_key in record:
+        return record.get(entity_key)
     return None
 
 
-def get_timestamp_ms(record: Dict, timestamp_field: str = None,
+def get_timestamp_ms(record: Dict,
+                     timestamp_field: str = None,
                      timestamp_format: str = None):
+    """Get timestamp field from the record and convert to unix time"""
     if timestamp_field and timestamp_format and timestamp_field in record:
         timestamp = datetime.strptime(record[timestamp_field],
                                       timestamp_format)
@@ -41,14 +46,18 @@ def get_timestamp_ms(record: Dict, timestamp_field: str = None,
     return None
 
 
-def run(filepath: str, filetype: str, topic: str, key_field: str = None,
+def get_topic_name(entity: str) -> str:
+    return f"entity-{entity}"
+
+
+def run(filepath: str, filetype: str, entity: str, entity_key: str = None,
         timestamp_field: str = None, timestamp_format: str = None) -> int:
 
     producer = KafkaProducer(
-        bootstrap_servers="localhost:9092",
+        bootstrap_servers=settings.KAFKA_BROKER,
         api_version=(2, 4, 0),
-        acks="all",
-        compression_type="gzip",
+        acks=settings.KAFKA_ACKS,
+        compression_type=settings.KAFKA_COMPRESSION_TYPE,
         key_serializer=str.encode,
         value_serializer=lambda v: json.dumps(v).encode("utf-8")
     )
@@ -60,8 +69,8 @@ def run(filepath: str, filetype: str, topic: str, key_field: str = None,
                 continue
 
             producer.send(
-                topic=topic,
-                key=get_key(record, key_field),
+                topic=get_topic_name(entity),
+                key=get_key(record, entity_key),
                 value=record,
                 headers=None,
                 timestamp_ms=get_timestamp_ms(
@@ -72,6 +81,6 @@ def run(filepath: str, filetype: str, topic: str, key_field: str = None,
             ).add_errback(on_send_error)
 
             if line_number % 1000 == 0:
-                logger.info(f"Producer: {line_number} lines were processed")
+                logger.info(f"[entity: {entity}] {line_number} lines were processed")
 
     return line_number + 1
