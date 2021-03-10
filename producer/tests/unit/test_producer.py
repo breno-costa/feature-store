@@ -106,3 +106,26 @@ def test_run(monkeypatch):
         )
 
         assert record_count == 2
+
+
+def test_run_with_limit(monkeypatch):
+    monkeypatch.setattr(file_producer, "KafkaProducer", MockedKafkaProducer)
+
+    data = """{"cpf": "79719037778", "order_id": "6ee39c63-7963-4002-b84a-e2ad6f94ac8f", "order_created_at": "2019-01-17T22:49:28.000Z"}
+{"cpf": "80532101763", "order_id": "dd4f8f0a-c2cb-45c6-a002-c3be6b305e5f", "order_created_at": "2019-01-17T22:50:06.000Z"}"""
+
+    with NamedTemporaryFile(mode='w', suffix='.json') as f:
+        f.write(data)
+        f.flush()
+
+        record_count = file_producer.run(
+            filepath=f.name,
+            filetype="json",
+            entity_key="order_id",
+            timestamp_field="order_created_at",
+            timestamp_format="%Y-%m-%dT%H:%M:%S.000Z",
+            entity="orders",
+            limit=1
+        )
+
+        assert record_count == 1

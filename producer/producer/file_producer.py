@@ -51,7 +51,8 @@ def get_topic_name(entity: str) -> str:
 
 
 def run(filepath: str, filetype: str, entity: str, entity_key: str = None,
-        timestamp_field: str = None, timestamp_format: str = None) -> int:
+        timestamp_field: str = None, timestamp_format: str = None,
+        limit: int = None) -> int:
 
     producer = KafkaProducer(
         bootstrap_servers=settings.KAFKA_BROKER,
@@ -63,7 +64,7 @@ def run(filepath: str, filetype: str, entity: str, entity_key: str = None,
     )
 
     with open_file(filepath) as f:
-        for line_number, line in enumerate(f):
+        for line_number, line in enumerate(f, start=1):
             record = get_record(line, filetype)
             if record is None:
                 continue
@@ -83,4 +84,7 @@ def run(filepath: str, filetype: str, entity: str, entity_key: str = None,
             if line_number % 1000 == 0:
                 logger.info(f"[entity: {entity}] {line_number} lines were processed")
 
-    return line_number + 1
+            if limit and line_number == limit:
+                break
+
+    return line_number
