@@ -77,7 +77,7 @@ services:
       - feature_store
 
   sinks:
-    build: ./sink
+    build: ./sinks
     image: sinks
     container_name: sinks
     depends_on:

@@ -15,18 +15,18 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    name="transformations",
-    description="Feature Store Transformations",
+    name="sinks",
+    description="Feature Store Sinks",
     version="0.1.0",
-    keywords="transformations",
+    keywords="sinks",
     packages=find_packages(
-        include=["transformations", "transformations.*"],
+        include=["sinks", "sinks.*"],
         exclude=["tests*"]
     ),
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "transformations = transformations.cli:run_transformations"
+            "sinks = sinks.cli:run_sinks"
         ]
     }
 )
