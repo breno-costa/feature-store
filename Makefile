@@ -51,14 +51,14 @@ logs-sinks:
 
 ### PRODUCERS ###
 build-producer:
-	@docker build -f producer/Dockerfile producer
+	docker build -f producer/Dockerfile producer
 
 produce-orders: build-producer
-	@bash download_files.sh \
+	@bash data/download_files.sh \
 		https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/order.json.gz \
 		data/order.json.gz
 
-	@docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
+	docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
 		--filepath data/order.json.gz \
 		--filetype json \
 		--entity order \
@@ -66,13 +66,14 @@ produce-orders: build-producer
 		--timestamp_field order_created_at
 
 produce-status: build-producer
-	@bash download_files.sh \
+	@bash data/download_files.sh \
 		https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/status.json.gz \
 		data/status.json.gz
 
-	@docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
+	docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
 		--filepath data/status.json.gz \
 		--filetype json \
 		--entity status \
 		--entity_key status_id \
 		--timestamp_field created_at
+
