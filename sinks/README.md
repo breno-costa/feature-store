@@ -1,27 +1,29 @@
-# Feature Store
+# Sinks
 
-Feature Store
+This module is responsible to run sink jobs and allows you to export data from Apache Kafka topics to engines. 
+
+## How it works
+
+This module uses structured streaming available on the Spark.
+
+When the application is started, the catalog of sinks is used to create the structured streaming spark jobs. Each sink generates a spark job running on the cluster with a shared spark session.
+
+There are two sinks available for general use.
+
+* Redis: in-memory database used as feature store online storage.
+* Console: used for debug purposes.
 
 
-## Schema Registry
+## Useful commands
 
-The schema registry is responsible to store schema files,
-and provides a query layer for the applications. Each producer
-must register a schema before sending the data to Kafka.
+To run linters (mypy, flake8, bandit):
 
-There are two fundamental concepts used by the schema registry
-when a schema is created.
+```bash
+make lint
+```
 
-* Schema type: related to the data lifecycle (entity, feature-group)
-* Schema name: meaningful name that defines the data (order, status, order-by-user)
+To run tests:
 
-The full schema name is built with both parts concatenated as
-the examples listed below.
-
-* entity-order
-* entity-status
-* entity-customer
-* entity-restaurant
-* featuregroup-customer-orders
-
-The kafka topics are created with the full schema names.
+```bash
+make check
+```
