@@ -76,4 +76,3 @@ produce-status: build-producer
 		--entity status \
 		--entity_key status_id \
 		--timestamp_field created_at
-
