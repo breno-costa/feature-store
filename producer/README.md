@@ -70,6 +70,12 @@ To run linters (mypy, flake8, bandit):
 make lint
 ```
 
+To build the project:
+
+```bash
+make build
+```
+
 To run tests:
 
 ```bash
