@@ -8,10 +8,10 @@ The solution architecture contains the following components:
 
 * [Producer](./producer/README.md): applications producing entities to the kafka. 
 * Schema Registry: repository of the schemas created on the pipeline stages.
-* Kafka: streaming platform used to enable a high-performance data pipeline.
+* [Kafka](https://kafka.apache.org/): streaming platform used to enable a high-performance data pipeline.
 * [Transformations](./transformations/README.md): spark jobs to transform the entities produced by applications into features used by ML models.
 * [Sinks](./sinks/README.md): application that consumes the feature topics and ingest them in the online store.
-* Redis: in-memory data structure store, used as a online storage layer.
+* [Redis](https://redis.io/): in-memory data structure store, used as a online storage layer.
 
 
 ## Requirements
