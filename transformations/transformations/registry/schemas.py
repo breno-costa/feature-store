@@ -4,6 +4,8 @@ from typing import Dict
 from pyspark.sql.types import StructType
 
 
+# TODO: move this module to another module called schema registry
+
 def get_filename(full_schema_name: str) -> str:
     return os.path.join(os.path.dirname(__file__), f"{full_schema_name}.json")
 

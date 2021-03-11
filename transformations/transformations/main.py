@@ -2,7 +2,7 @@ from loguru import logger
 from pyspark.sql import SparkSession
 
 from transformations.core import FeatureGroupJob
-from transformations.definitions import catalog
+from transformations import catalog
 
 
 def spark_session(app_name: str) -> SparkSession:

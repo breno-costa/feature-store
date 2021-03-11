@@ -15,18 +15,18 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    name="definitions",
+    name="transformations",
     description="Feature Store Transformations",
     version="0.1.0",
-    keywords="definitions",
+    keywords="transformations",
     packages=find_packages(
-        include=["definitions", "definitions.*"],
+        include=["transformations", "transformations.*"],
         exclude=["tests*"]
     ),
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "definitions = definitions.cli:run_transformations"
+            "transformations = definitions.cli:run_transformations"
         ]
     }
 )
