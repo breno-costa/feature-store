@@ -2,6 +2,7 @@
 
 This module is responsible to run sink jobs and allows you to export data from Apache Kafka topics to engines. 
 
+
 ## How it works
 
 This module uses structured streaming available on the Spark.
@@ -20,6 +21,12 @@ To run linters (mypy, flake8, bandit):
 
 ```bash
 make lint
+```
+
+To build the project:
+
+```bash
+make build
 ```
 
 To run tests:

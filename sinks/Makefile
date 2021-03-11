@@ -41,7 +41,3 @@ bandit:
 	$(DOCKER_RUN) $(MOUNT_TESTS) $(MOUNT_SOURCE) -w /app brenocosta0901/bandit:latest -r $(PACKAGE_NAME)
 
 lint: mypy flake8 bandit
-
-
-start: build
-	$(DOCKER_RUN) -p 4040:4040 --network=host $(DOCKER_IMG) sinks
