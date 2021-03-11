@@ -4,12 +4,15 @@ This module provides an extensible framework for creating transformation jobs th
 
 ## How it works
 
-This module is a spark application that can be scalable for multiple workers working together. When the application is started, the catalog is used to create the structured streaming spark jobs. Each transformation class generates a spark job running on the cluster.
+This module uses structured streaming available on the Spark.
 
-This module uses structured streaming available on the Spark, and this approach has two main advantages:
+When the application is started, the catalog of transformations is used to create the structured streaming spark jobs. Each transformation generates a spark job running on the cluster with a shared spark session.
 
-* Creation of streaming jobs using dataframes api in a simple way
-* Implement batch and streaming transformations classes with the same code!
+The proposed approach has some advantages:
+
+* Horizontal scalability for multiple workers.
+* Creation of streaming jobs using dataframes api.
+* Batch and streaming transformations jobs using the same code!
 
 ## Writing a new transformation
 
