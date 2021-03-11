@@ -9,7 +9,7 @@ The solution architecture contains the following components:
 * [Producer](./producer/README.md): applications producing entities to the kafka. 
 * Schema Registry: repository of the schemas created on the pipeline stages.
 * Kafka: streaming platform used to enable a high-performance data pipeline.
-* [Transformations](./transformers/README.md): spark jobs to transform the entities produced by applications into features used by ML models.
+* [Transformations](./transformations/README.md): spark jobs to transform the entities produced by applications into features used by ML models.
 * [Sinks](./sinks/README.md): application that consumes the feature topics and ingest them in the online store.
 * Redis: in-memory data structure store, used as a online storage layer.
 
@@ -29,7 +29,7 @@ This project can be easily started using the command below.
 make start
 ```
 
-This command could take a few minutes since the docker images will be either pulled or built for the following services: Zookeeper, Kafka, Kafdrop, Redis, Transformers, and Sinks. You can follow the service logs using the command below.
+This command could take a few minutes since the docker images will be either pulled or built for the following services: Zookeeper, Kafka, Kafdrop, Redis, Transformations, and Sinks. You can follow the service logs using the command below.
 
 ```bash
 make logs
@@ -38,7 +38,7 @@ make logs
 After the services are running, you can access the management UI in order to make sure everything is fine.
 
 * [Kafdrop's ui](http://localhost:9000)
-* [Transformers' spark ui](http://localhost:4040/StreamingQuery)
+* [Transformations' spark ui](http://localhost:4040/StreamingQuery)
 * [Sinks' spark ui](http://localhost:4050/StreamingQuery)
 
 Once everything is fine, let's run the producers.
