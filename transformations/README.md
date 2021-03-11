@@ -71,3 +71,24 @@ This is a very important step to guarantee the quality of the feature engineerin
 ### Catalog
 
 Lastly the transformation class must be registered to run properly as transformation jobs. You just need to add it on the definition catalog.
+
+
+## Useful commands
+
+To run linters (mypy, flake8, bandit):
+
+```bash
+make lint
+```
+
+To build the project:
+
+```bash
+make build
+```
+
+To run tests:
+
+```bash
+make check
+```

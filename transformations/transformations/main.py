@@ -1,8 +1,9 @@
 from loguru import logger
 from pyspark.sql import SparkSession
 
-from transformations.core import FeatureGroupJob
 from transformations import catalog
+from transformations import settings
+from transformations.core import FeatureGroupJob
 
 
 def spark_session(app_name: str) -> SparkSession:
@@ -22,4 +23,6 @@ def start_transformation_jobs():
         logger.info(f"Starting transformation {feature_group}")
         FeatureGroupJob(spark, feature_group).run()
 
-    spark.streams.awaitAnyTermination()
+    logger.info(f"Spark await any termination: {settings.SPARK_AWAIT_TERMINATION}")
+    if settings.SPARK_AWAIT_TERMINATION:
+        spark.streams.awaitAnyTermination()

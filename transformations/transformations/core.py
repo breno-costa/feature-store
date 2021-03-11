@@ -29,6 +29,16 @@ class FeatureGroupJob:
         self.input_entity = get_entity_name(definition.input_entity)
         self.definition = definition
 
+    def subscribe(self) -> DataFrame:
+        return (
+            self.spark
+            .readStream
+            .format("kafka")
+            .option("kafka.bootstrap.servers", settings.KAFKA_BROKER)
+            .option("subscribe", self.input_entity)
+            .load()
+        )
+
     def from_kafka(self, df: DataFrame, full_schema: str) -> DataFrame:
         """Convert kafka value to a dataframe with flattened fields"""
         return (
@@ -48,28 +58,8 @@ class FeatureGroupJob:
             to_json(struct([df[x] for x in df.columns])).alias("value")
         )
 
-    def run(self):
-        # Subscribe to input entity kafka topic
-        df = (
-            self.spark
-            .readStream
-            .format("kafka")
-            .option("kafka.bootstrap.servers", settings.KAFKA_BROKER)
-            .option("subscribe", self.input_entity)
-            .load()
-        )
-
-        # Convert kafka value to dataframe
-        df = self.from_kafka(df, self.input_entity)
-
-        # Apply the user defined transformation
-        df = self.definition.transform(df)
-
-        # Convert dataframe to kafka value
-        df = self.to_kafka(df, self.feature_group_key)
-
-        # Start running the query
-        query = (
+    def start_query(self, df: DataFrame):
+        return (
             df
             .writeStream
             .queryName(self.feature_group)
@@ -81,4 +71,18 @@ class FeatureGroupJob:
             .start()
         )
 
-        return query
+    def run(self):
+        # Subscribe to input entity kafka topic
+        df = self.subscribe()
+
+        # Convert kafka value to dataframe
+        df = self.from_kafka(df, self.input_entity)
+
+        # Apply the user defined transformation
+        df = self.definition.transform(df)
+
+        # Convert dataframe to kafka value
+        df = self.to_kafka(df, self.feature_group_key)
+
+        # Start running the query
+        return self.start_query(df)

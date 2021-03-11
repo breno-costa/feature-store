@@ -30,6 +30,9 @@ check: build
 check/%: build
 	$(DOCKER_RUN) $(MOUNT_TESTS) $(DOCKER_IMG) python -B -m pytest -p no:cacheprovider $@
 
+check-integration: build
+	@bash tests/integration/run.sh
+
 
 mypy:
 	$(DOCKER_RUN) $(MOUNT_TESTS) $(MOUNT_SOURCE) -w /app brenocosta0901/mypy:latest $(PACKAGE_NAME) tests
@@ -43,5 +46,14 @@ bandit:
 lint: mypy flake8 bandit
 
 
-start-transformations: build
-	$(DOCKER_RUN) -p 4040:4040 --network=host $(DOCKER_IMG) transformations
+start:
+	docker-compose up --build -d
+
+stop:
+	docker-compose stop
+
+purge:
+	docker-compose down -v
+
+logs:
+	docker-compose logs -f
