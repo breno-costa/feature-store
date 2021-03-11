@@ -7,7 +7,7 @@ Feature Store provides a centralized location to store and document features tha
 The solution architecture contains the following components:
 
 * [Producer](./producer/README.md): applications producing entities to the kafka. 
-* Schema Registry: repository of the schemas created on the pipeline stages.
+* [Registry](./registry/README.md): repository of the schemas created on the pipeline stages.
 * [Kafka](https://kafka.apache.org/): streaming platform used to enable a high-performance data pipeline.
 * [Transformations](./transformations/README.md): spark jobs to transform the entities produced by applications into features used by ML models.
 * [Sinks](./sinks/README.md): application that consumes the feature topics and ingest them in the online store.
