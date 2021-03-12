@@ -51,6 +51,16 @@ services:
       JVM_OPTS: '-Xms32M -Xmx64M'
     networks:
       - feature_store
+
+  redis:
+    image: redis
+    container_name: redis
+    command: redis-server
+    ports:
+      - "6379:6379"
+    networks:
+      - feature_store
+
   mongo:
     image: mongo
     restart: always
@@ -63,36 +73,28 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: secret
       MONGO_INITDB_DATABASE: registry
     volumes:
-      - ./data:/docker-entrypoint-initdb.d/
-    networks:
-      - registry
-
-  redis:
-    image: redis
-    container_name: redis
-    command: redis-server
-    ports:
-      - "6379:6379"
+      - ./registry/docker-initdb:/docker-entrypoint-initdb.d/
     networks:
       - feature_store
 
   registry:
-    image: registry:latest
+    build: ./registry
+    image: registry
     command: uvicorn registry.api:app --host 0.0.0.0
     hostname: registry
     container_name: registry
     depends_on:
       - mongo
     environment:
-      MONGO_USER: registry_user
-      MONGO_PASSWORD: registry_secret
-      MONGO_DATABASE: registry
-      MONGO_HOST: mongo
-      MONGO_PORT: 27017
+      MONGO_USER: 'registry_user'
+      MONGO_PASSWORD: 'registry_secret'
+      MONGO_DATABASE: 'registry'
+      MONGO_HOST: 'mongo'
+      MONGO_PORT: '27017'
     ports:
       - 8000:8000
     networks:
-      - registry
+      - feature_store
 
   transformations:
     build: ./transformations

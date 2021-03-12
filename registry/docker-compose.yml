@@ -13,7 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: secret
       MONGO_INITDB_DATABASE: registry
     volumes:
-      - ./data:/docker-entrypoint-initdb.d/
+      - ./docker-initdb:/docker-entrypoint-initdb.d/
     networks:
       - registry
 

@@ -25,6 +25,6 @@ def start_sink_jobs():
 
     for schema in catalog.schemas:
         logger.info(f"Starting sink: {schema}")
-        RedisSink(spark=spark, feature_group=feature_group).run()
+        RedisSink(spark=spark, schema=schema).run()
 
     spark.streams.awaitAnyTermination()

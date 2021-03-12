@@ -51,7 +51,7 @@ logs-sinks:
 
 ### PRODUCERS ###
 build-producer:
-	docker build -f producer/Dockerfile producer
+	docker build -f producer/Dockerfile -t producer:latest producer
 
 produce-orders: build-producer
 	@bash data/download_files.sh \
