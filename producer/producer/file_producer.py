@@ -54,6 +54,7 @@ def run(filepath: str, filetype: str, entity: str, entity_key: str = None,
         timestamp_field: str = None, timestamp_format: str = None,
         limit: int = None) -> int:
 
+    # TODO: register schema on the registry before sending to kafka
     producer = KafkaProducer(
         bootstrap_servers=settings.KAFKA_BROKER,
         api_version=(2, 4, 0),
