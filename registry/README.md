@@ -17,15 +17,15 @@ The schema subject is built with both parts concatenated as the examples below.
 * entity-status
 * featuregroup-customer-orders
 
-The kafka topic names are the schema subjects.
+The Kafka topic names are the same as the schema subjects.
 
 
 ## API
 
-Please checkout the [OpenAPI documentation](http://localhost:8000/docs) to see the available endpoints. The registry API has operations to handle schemas on the database. An example on how to use schema registry is shown below to get schema by subject.
+Please checkout the [OpenAPI documentation](http://localhost:8000/docs) to see the available endpoints. The registry API has operations to handle schemas on the database. An example is shown below on how to use schema registry to get schema by subject.
 
 ```bash
-$ curl http://localhost:8000/schemas/order-status
+$ curl http://localhost:8000/schemas/entity-status
 {
     "subject": "entity-status",
     "type": "entity",
