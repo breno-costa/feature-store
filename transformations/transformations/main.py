@@ -23,6 +23,4 @@ def start_transformation_jobs():
         logger.info(f"Starting transformation {feature_group}")
         FeatureGroupJob(spark, feature_group).run()
 
-    logger.info(f"Spark await any termination: {settings.SPARK_AWAIT_TERMINATION}")
-    if settings.SPARK_AWAIT_TERMINATION:
-        spark.streams.awaitAnyTermination()
+    spark.streams.awaitAnyTermination()

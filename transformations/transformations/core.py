@@ -21,6 +21,7 @@ class FeatureGroup:
         pass
 
 
+# TODO: register schema on the registry before sending to kafka
 class FeatureGroupJob:
     def __init__(self, spark: SparkSession, definition: FeatureGroup):
         self.spark = spark
