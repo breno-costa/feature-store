@@ -5,12 +5,12 @@ from sinks import settings
 
 
 class ConsoleSink:
-    def __init__(self, spark: SparkSession, feature_group: str):
+    def __init__(self, spark: SparkSession, schema: str):
         self.spark = spark
-        self.feature_group = feature_group
+        self.schema = schema
 
     def get_sink_name(self):
-        return f"sink-console-{self.feature_group}"
+        return f"sink-console-{self.schema}"
 
     def run(self):
         df = (
@@ -18,7 +18,7 @@ class ConsoleSink:
                 .readStream
                 .format("kafka")
                 .option("kafka.bootstrap.servers", settings.KAFKA_BROKER)
-                .option("subscribe", self.feature_group)
+                .option("subscribe", self.schema)
                 .load()
         )
 

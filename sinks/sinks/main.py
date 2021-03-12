@@ -23,8 +23,8 @@ def spark_session(app_name: str) -> SparkSession:
 def start_sink_jobs():
     spark = spark_session("Sinks")
 
-    for feature_group in catalog.feature_groups:
-        logger.info(f"Starting sink: {feature_group}")
+    for schema in catalog.schemas:
+        logger.info(f"Starting sink: {schema}")
         RedisSink(spark=spark, feature_group=feature_group).run()
 
     spark.streams.awaitAnyTermination()

@@ -1,6 +1,6 @@
 
-# TODO: this list should be fetched from the registry
-feature_groups = [
+# TODO: this list could be fetched from the registry
+schemas = [
     "featuregroup-customer_orders_on_last_day",
     "featuregroup-order_creation"
 ]

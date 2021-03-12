@@ -5,12 +5,12 @@ from sinks import settings
 
 
 class RedisSink:
-    def __init__(self, spark: SparkSession, feature_group: str):
+    def __init__(self, spark: SparkSession, schema: str):
         self.spark = spark
-        self.feature_group = feature_group
+        self.schema = schema
 
     def get_sink_name(self):
-        return f"sink-redis-{self.feature_group}"
+        return f"sink-redis-{self.schema}"
 
     def foreach_batch(self, batch_df: DataFrame, batch_id: int):
         (
@@ -19,7 +19,7 @@ class RedisSink:
             .write
             .format("org.apache.spark.sql.redis")
             .mode("overwrite")
-            .option("table", self.feature_group)
+            .option("table", self.schema)
             # .option("model", "binary")
             .option("key.column", "key")
             .save()
@@ -31,7 +31,7 @@ class RedisSink:
             .readStream
             .format("kafka")
             .option("kafka.bootstrap.servers", settings.KAFKA_BROKER)
-            .option("subscribe", self.feature_group)
+            .option("subscribe", self.schema)
             .load()
         )
 
