@@ -44,5 +44,5 @@ After the services are running, you can access the management UI in order to mak
 Once everything is fine, let's run the producers.
 
 ```bash
-make producer-orders
+make produce-orders
 ```
