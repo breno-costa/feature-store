@@ -1,10 +1,10 @@
 # Feature Store
 
-Feature Store provides a centralized location to store and document features that will be used in machine learning models and can be shared across projects. The image below presents architecture proposed on this project.
+Feature Store provides a centralized location to store and document features that will be used in machine learning models and can be shared across projects. The image below presents an ideal architecture proposed for building a streaming feature store that is able to calculate features using a streaming platform, and make them available to the data scientists on dev and prod environments.
 
 ![architecture](./architecture.png)
 
-The solution architecture contains the following components:
+The solution currently implemented contains only the following components:
 
 * [Producer](./producer/README.md): applications producing entities to the kafka. 
 * [Registry](./registry/README.md): repository of the schemas created on the pipeline stages.

@@ -54,24 +54,16 @@ build-producer:
 	docker build -f producer/Dockerfile -t producer:latest producer
 
 produce-orders: build-producer
-	@bash data/download_files.sh \
-		https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/order.json.gz \
-		data/order.json.gz
-
 	docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
-		--filepath data/order.json.gz \
+		--filepath data/orders_100k.json.gz \
 		--filetype json \
 		--entity order \
 		--entity_key order_id \
 		--timestamp_field order_created_at
 
 produce-status: build-producer
-	@bash data/download_files.sh \
-		https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/status.json.gz \
-		data/status.json.gz
-
 	docker run -v $(PWD)/data:/app/data --network=host producer:latest producer \
-		--filepath data/status.json.gz \
+		--filepath data/status_100k.json.gz \
 		--filetype json \
 		--entity status \
 		--entity_key status_id \
